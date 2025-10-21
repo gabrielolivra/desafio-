@@ -1,0 +1,45 @@
+
+  type Pokemon {
+    id: ID!
+    name: String!
+    height: Int
+    weight: Int
+    abilities: [String!]!
+    types: [String!]!
+    nickName: String
+    favorite: Boolean
+    powerLevel: Int
+  }
+
+  type Query {
+    pokemons: [Pokemon!]!
+    pokemon(id: ID!): Pokemon
+    favoritePokemons: [Pokemon!]!
+    hello: String
+  }
+
+  type Mutation {
+    createPokemon(input: PokemonInput!): Pokemon!
+    updatePokemon(input: UpdatePokemonInput!): Pokemon!
+    deletePokemon(id: ID!): Boolean!
+    toggleFavorite(id: ID!): Pokemon!
+    addStatusPokemon(input: PokemonInput!): Pokemon!
+  }
+
+  input PokemonInput {
+    pokemonName: String!
+    height: Int
+    weight: Int
+    abilities: [String!]!
+    types: [String!]!
+    nickName: String
+    favorite: Boolean
+    powerLevel: Int
+  }
+
+  input UpdatePokemonInput {
+    id: ID!
+    nickName: String
+    favorite: Boolean
+    powerLevel: Int
+  }

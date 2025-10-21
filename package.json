@@ -1,0 +1,30 @@
+{
+  "name": "desafio-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.0.0",
+    "@graphql-tools/load-files": "^7.0.1",
+    "@types/axios": "^0.9.36",
+    "apollo-server-express": "^3.13.0",
+    "axios": "^1.12.2",
+    "dotenv": "^17.2.3",
+    "graphql": "^16.11.0"
+  }
+}
