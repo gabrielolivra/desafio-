@@ -35,6 +35,7 @@ export async function createOrUpdatePokemonService(
   if (existingPokemon) {
     const updatedPokemon = await updatePokemon(existingPokemon.id,
       {
+        pokemonName: existingPokemon.pokemonName,
         nickname: data.nickname,
         favorite: data.favorite,
         powerLevel: data.powerLevel
