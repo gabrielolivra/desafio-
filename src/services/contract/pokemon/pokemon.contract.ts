@@ -1,12 +1,12 @@
 export interface IPokemonContract {
-  id: string
-  name: string
-  height: number
-  weight: number
-  types: string[]
-  nickname?: string | null 
-  favorite?: boolean | null
-  powerLevel?: number | null
+  id: string;
+  name: string;
+  height: number;
+  weight: number;
+  types: string[];
+  nickname?: string | null;
+  favorite?: boolean | null;
+  powerLevel?: number | null;
 }
 
 export interface ICreateOrUpdatePokemon {

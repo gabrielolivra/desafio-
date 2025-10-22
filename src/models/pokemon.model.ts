@@ -1,7 +1,6 @@
 import PokemonSchema from "../entities/pokemon/schema"
 import { IPokemon } from "./contract/pokemon.contract";
 
-
 export async function createPokemon(data: Partial<IPokemon>): Promise<IPokemon> {
   const newPokemon = await PokemonSchema.create(data);
   return newPokemon as unknown as IPokemon;

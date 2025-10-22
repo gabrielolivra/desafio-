@@ -1,9 +1,9 @@
 export interface IPokemonType {
-  id: number,
-  name: string,
-  height: number,
-  weight: number,
-  types: string[],
+  id: number;
+  name: string;
+  height: number;
+  weight: number;
+  types: string[];
 }
 
 export interface IPokemonGatewayListResponse {
