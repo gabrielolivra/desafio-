@@ -40,3 +40,45 @@ Apollo: `http://localhost:3000/graphql`
 - Docker
 - Docker Compose
 
+## GraphQL
+
+Query:
+`
+query Query {
+
+  pokemons(perPage:10, page: 1) {
+    id
+    name,
+    powerLevel
+    nickname
+    favorite
+    types
+    height
+    weight
+
+  }
+}
+
+`
+
+Mutation: 
+`
+mutation CreatePokemon {
+  createOrUpdatePokemon(input: {
+    pokemonName: "venusaur"
+    nickname: "saur"
+    favorite: false
+    powerLevel: 12,
+  }) {
+    favorite
+    powerLevel
+    id
+    height
+    weight
+    name
+    nickname
+    types
+  }
+}
+
+`
