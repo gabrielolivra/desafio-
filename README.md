@@ -64,7 +64,7 @@ query Query {
 Mutation: 
 ```bash
 mutation CreatePokemon {
-  createOrUpdatePokemon(input: {
+  createPokemonAttributes(input: {
     pokemonName: "venusaur"
     nickname: "saur"
     favorite: false
