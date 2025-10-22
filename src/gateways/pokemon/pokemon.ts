@@ -1,15 +1,15 @@
 import axios from 'axios';
-import { IPokemonGatewayDetail, IPokemonGatewayListResponse } from './types';
+import { IPokemonGatewayDetail, IPokemonGatewayListResponse, IPokemonType } from './types';
 
 
 
 export class PokemonGateway {
   private readonly baseUrl = process.env.API_POKEMON_URL;
 
-  async getAllPokemons(limit: number = 20, offset: number = 0): Promise<IPokemonGatewayListResponse[]> {
+  async getAllPokemons(limit: number = 20, offset: number = 0): Promise<IPokemonType[]> {
     let pokemonList = []
     try {
-      const response = await axios.get<any>(
+      const response = await axios.get<IPokemonGatewayListResponse>(
         `${this.baseUrl}/pokemon?limit=${limit}&offset=${offset}`
       );
 

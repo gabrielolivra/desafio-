@@ -4,7 +4,7 @@ import { IPokemon } from "./contract/pokemon.contract";
 
 export async function createPokemon(data: Partial<IPokemon>): Promise<IPokemon> {
   const newPokemon = await PokemonSchema.create(data);
-  return newPokemon as any;
+  return newPokemon as unknown as IPokemon;
 }
 
 export async function findPokemons(): Promise<IPokemon[]> {
