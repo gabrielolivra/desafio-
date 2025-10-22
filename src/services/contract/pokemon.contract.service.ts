@@ -8,3 +8,10 @@ export interface IPokemonContract {
   favorite: boolean
   powerLevel: number
 }
+
+export interface ICreateOrUpdatePokemon {
+  pokemonName: string;
+  nickname: string;
+  favorite: boolean;
+  powerLevel: number;
+}

@@ -1,67 +1,70 @@
 import { PokemonGateway } from "../../gateways/pokemon/pokemon";
 import { createPokemon, findPokemons, getPokemonByName, updatePokemon, verifyQuantityPokemon } from "../../models/pokemon";
-import { IPokemonContract } from "../contract/pokemon.contract.service";
+import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon.contract.service";
 
 
 
 export async function createOrUpdatePokemonService(
-  name: string,
-  nickname: string,
-  favorite: boolean,
-  powerLevel: number
+  data: ICreateOrUpdatePokemon
 ): Promise<IPokemonContract> {
   const gateway = new PokemonGateway();
-  const pokemonData = await gateway.getPokemonByName(name);
-
-  if (!pokemonData) {
-    throw new Error(`Pokemon with name ${name} not found in external API.`);
-  }
-
-  if (powerLevel < 1 || powerLevel > 100) {
-    throw new Error("Power level must be between 1 and 100.");
-  }
-
-  if (favorite) {
-    const reachedFavoriteLimit = await verifyQuantityPokemon();
-    if (reachedFavoriteLimit) {
-      throw new Error("Cannot have more than 3 favorite Pokemons.");
+  try {
+    const pokemonData = await gateway.getPokemonByName(data.pokemonName.toLocaleLowerCase());
+    if (!pokemonData) {
+      throw new Error(`Pokemon with name ${data.pokemonName} not found in external API.`);
     }
-  }
 
-  const existingPokemon = await getPokemonByName(name.toLowerCase());
+    if (data.powerLevel < 1 || data.powerLevel > 100) {
+      throw new Error("Power level must be between 1 and 100.");
+    }
 
-  if (existingPokemon) {
-    const updatedPokemon = await updatePokemon(existingPokemon.id, { nickname, favorite, powerLevel });
+    if (data.favorite) {
+      const reachedFavoriteLimit = await verifyQuantityPokemon();
+      if (reachedFavoriteLimit) {
+        throw new Error("Cannot have more than 3 favorite Pokemons.");
+      }
+    }
+
+    const existingPokemon = await getPokemonByName(data.pokemonName.toLowerCase());
+
+    if (existingPokemon) {
+      const updatedPokemon = await updatePokemon(existingPokemon.id, { nickname: data.nickname, favorite: data.favorite, powerLevel: data.powerLevel });
+      return {
+        ...pokemonData,
+        types: pokemonData.types.map(t => t.type.name),
+        id: updatedPokemon!.id,
+        nickname: updatedPokemon!.nickname,
+        favorite: updatedPokemon!.favorite,
+        powerLevel: updatedPokemon!.powerLevel,
+      };
+    }
+
+    const savedPokemon = await createPokemon({
+      pokemonName: pokemonData.name,
+      nickname: data.nickname,
+      favorite: data.favorite,
+      powerLevel: data.powerLevel,
+    });
+
     return {
       ...pokemonData,
       types: pokemonData.types.map(t => t.type.name),
-      id: updatedPokemon!.id,
-      nickname: updatedPokemon!.nickname,
-      favorite: updatedPokemon!.favorite,
-      powerLevel: updatedPokemon!.powerLevel,
+      id: savedPokemon.id.toString(),
+      nickname: savedPokemon.nickname,
+      favorite: savedPokemon.favorite,
+      powerLevel: savedPokemon.powerLevel,
     };
+
+  } catch (error) {
+    throw new Error(`Pokemon not found: ${name}`);
   }
 
-  const savedPokemon = await createPokemon({
-    pokemonName: pokemonData.name,
-    nickname,
-    favorite,
-    powerLevel,
-  });
 
-  return {
-    ...pokemonData,
-    types: pokemonData.types.map(t => t.type.name),
-    id: savedPokemon.id.toString(),
-    nickname: savedPokemon.nickname,
-    favorite: savedPokemon.favorite,
-    powerLevel: savedPokemon.powerLevel,
-  };
 }
 
-export async function listPokemonsService(limit: number, offset: number): Promise<IPokemonContract[]> {
+export async function listPokemonsService(perPage: number, page: number): Promise<IPokemonContract[]> {
   const gatewayPokemons = new PokemonGateway();
-  const pokemonsList = await gatewayPokemons.getAllPokemons(limit, offset);
+  const pokemonsList = await gatewayPokemons.getAllPokemons(perPage, page);
   const pokemonsFromDB = await findPokemons();
   let mergePokemons = [];
 

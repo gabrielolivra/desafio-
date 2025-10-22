@@ -10,7 +10,7 @@ type Pokemon {
 }
 
 type Query {
-  pokemons(limit: Int, offset: Int): [Pokemon!]!
+  pokemons(perPage: Int, page: Int): [Pokemon!]!
 }
 
 type Mutation {
