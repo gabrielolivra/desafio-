@@ -43,7 +43,7 @@ Apollo: `http://localhost:3000/graphql`
 ## GraphQL
 
 Query:
-`
+```bash
 query Query {
 
   pokemons(perPage:10, page: 1) {
@@ -59,7 +59,7 @@ query Query {
   }
 }
 
-`
+```
 
 Mutation: 
 `
