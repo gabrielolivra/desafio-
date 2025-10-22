@@ -26,10 +26,10 @@ export async function createPokemonAttributesService(
 
   const existingPokemon = await findPokemonByName(data.pokemonName.toLowerCase());
 
-  if (data.favorite && !existingPokemon) {
+  if ((data.favorite && !existingPokemon) || (data.favorite && existingPokemon && !existingPokemon.favorite)) {
     const reachedFavoriteLimit = await verifyLimitFavorite();
     if (reachedFavoriteLimit) {
-      throw new Error("Cannot have more than 3 favorite Pokemons.");
+      throw new Error(`Cannot have more than ${MAX_FAVORITE_POKEMONS} favorite Pokemons.`);
     }
   }
 
