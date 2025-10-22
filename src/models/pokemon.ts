@@ -1,4 +1,4 @@
-import PokemonSchema from "../entities/schema"
+import PokemonSchema from "../entities/pokemon/schema"
 import { IPokemon } from "./contract/pokemon.contract";
 
 

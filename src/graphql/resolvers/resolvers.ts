@@ -3,9 +3,9 @@ import { createOrUpdatePokemonService, listPokemonsService } from "../../service
 
 export const resolvers = {
   Query: {
-    pokemons: async (_: any, args: { perPage: number, page: number }) => {
-      const { perPage, page } = args;
-      const pokemons = await listPokemonsService(perPage, page);
+    pokemons: async (_: any, args: { page: number, limit: number }) => {
+      const { page, limit } = args;
+      const pokemons = await listPokemonsService(page, limit);
       return pokemons;
     }
   },

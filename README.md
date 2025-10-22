@@ -46,7 +46,7 @@ Query:
 ```bash
 query Query {
 
-  pokemons(perPage:10, page: 1) {
+  pokemons(page: 2, limit: 3) {
     id
     name,
     powerLevel

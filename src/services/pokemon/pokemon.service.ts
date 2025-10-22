@@ -69,9 +69,9 @@ export async function createOrUpdatePokemonService(
 
 }
 
-export async function listPokemonsService(perPage: number, page: number): Promise<IPokemonContract[]> {
+export async function listPokemonsService(page: number, limit: number): Promise<IPokemonContract[]> {
   const gatewayPokemons = new PokemonGateway();
-  const pokemonsList = await gatewayPokemons.getAllPokemons(perPage, page);
+  const pokemonsList = await gatewayPokemons.getAllPokemons(page, limit);
   const pokemonsFromDB = await findPokemons();
   let mergePokemons = [];
 

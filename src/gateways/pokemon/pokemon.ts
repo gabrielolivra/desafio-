@@ -4,11 +4,11 @@ import { IPokemonGatewayDetail, IPokemonGatewayListResponse, IPokemonType } from
 export class PokemonGateway {
   private readonly baseUrl = process.env.API_POKEMON_URL;
 
-  async getAllPokemons(limit: number = 20, offset: number = 0): Promise<IPokemonType[]> {
+  async getAllPokemons(page: number = 1, limit: number = 20): Promise<IPokemonType[]> {
     let pokemonList = []
     try {
       const response = await axios.get<IPokemonGatewayListResponse>(
-        `${this.baseUrl}/pokemon?limit=${limit}&offset=${offset}`
+        `${this.baseUrl}/pokemon?limit=${limit}&offset=${page}`
       );
 
       for (const item of response.data.results) {
