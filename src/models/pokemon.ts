@@ -1,44 +1,33 @@
-import { Collection, Db, ObjectId } from 'mongodb';
-import { connectDB } from '../helpers/database.ts/database.helper';
-import { PaginatedResult, PaginationHelper, PaginationOptions } from '../helpers/pagination.helper';
+import PokemonSchema from "../entities/schema"
+import { IPokemon } from "./contract/pokemon.contract";
 
-let db: Db;
-let collection: Collection;
-connectDB().then(database => {
-    db = database;
-    collection = db.collection('pokemons');
-});
 
-export async function insertOne<T extends Document>(pokemon: T) {
-
-    const result = await collection.insertOne(pokemon);
-    return { ...pokemon, _id: result.insertedId };
+export async function createPokemon(data: IPokemon): Promise<IPokemon> {
+  const newPokemon = await PokemonSchema.create(data);
+  return newPokemon as any;
 }
 
-export async function findById<T extends Document>(id: string): Promise<T | null> {
-    return collection.findOne({ _id: new ObjectId(id) }) as Promise<T | null>;
+export async function findPokemons(): Promise<IPokemon[]> {
+  const pokemons: IPokemon[] = await PokemonSchema.find();
+  return pokemons;
+  
 }
 
-export async function findAll<T extends Document>(
-  options?: PaginationOptions
-): Promise<PaginatedResult<T>> {
-  return PaginationHelper.paginate<T>(
-    async () => {
-      const { limit, page, sort } = PaginationHelper.getPaginationOptions(options);
-      const skip = PaginationHelper.getSkip(page, limit);
-      
-      return collection
-          .find()
-          .sort(sort)
-          .skip(skip)
-          .limit(limit)
-          .toArray() as unknown as Promise<T[]>;
-    },
-    async () => collection.countDocuments(),
-    options
+export async function updatePokemon(id: string, data: Partial<IPokemon>): Promise<IPokemon> {
+  const updatedPokemon = await PokemonSchema.findByIdAndUpdate(
+    id,
+    { ...data },
+    { new: true }
   );
+  return updatedPokemon as any;
 }
-export async function updateById<T extends Document>(id: string, update: Partial<T>): Promise<T | null> {
-    await collection.updateOne({ _id: new ObjectId(id) }, { $set: update });
-    return findById<T>(id);
+
+export async function getPokemonByName(name: string): Promise<IPokemon | null> {
+  const pokemon: IPokemon | null = await PokemonSchema.findOne({ pokemonName: name });
+  return pokemon;
+}
+
+export async function verifyQuantityPokemon(): Promise<boolean> {
+  const favoritePokemon = await PokemonSchema.find({ favorite: true });
+  return favoritePokemon.length > 3;
 }

@@ -13,4 +13,6 @@ export interface IPokemonGatewayDetail {
     name: string;
     height: number;
     weight: number;
+    abilities: { ability: { name: string; url: string } }[];
+    types: { type: { name: string; url: string } }[];
 }
