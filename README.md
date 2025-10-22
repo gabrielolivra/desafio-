@@ -24,6 +24,9 @@ docker-compose up -d
 # Instale as dependências
 npm install
 
+#Crie o arquivo .env com os dados do .env.example
+cp .env.example .env
+
 # Execute o projeto
 npm run dev
 ```
@@ -46,7 +49,7 @@ Query:
 ```bash
 query Query {
 
-  pokemons(page: 2, limit: 3) {
+  pokemons(page: 1, limit: 10) {
     id
     name,
     powerLevel
