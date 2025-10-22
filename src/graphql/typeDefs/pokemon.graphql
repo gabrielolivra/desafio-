@@ -14,7 +14,7 @@ type Query {
 }
 
 type Mutation {
-  createOrUpdatePokemon(input: PokemonAttributesInput!): Pokemon!
+  createPokemonAttributes(input: PokemonAttributesInput!): Pokemon!
 }
 
 input PokemonAttributesInput {

@@ -1,5 +1,5 @@
 import { ICreateOrUpdatePokemon } from "../../services/contract/pokemon/pokemon.contract";
-import { createOrUpdatePokemonService, listPokemonsService } from "../../services/pokemon/pokemon.service";
+import { createPokemonAttributesService, listPokemonsService } from "../../services/pokemon/pokemon.service";
 
 export const resolvers = {
   Query: {
@@ -11,8 +11,9 @@ export const resolvers = {
   },
 
   Mutation: {
-    createOrUpdatePokemon: async (_: any, args: { input: ICreateOrUpdatePokemon }) => {
-      return await createOrUpdatePokemonService(args.input);
+    createPokemonAttributes: async (_: any, args: { input: ICreateOrUpdatePokemon }) => {
+      const { input } = args;
+      return await createPokemonAttributesService(input);
     }
   }
 };

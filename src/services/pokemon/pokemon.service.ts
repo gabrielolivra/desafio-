@@ -8,7 +8,7 @@ import {
 } from "../../models/pokemon";
 import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon/pokemon.contract";
 
-export async function createOrUpdatePokemonService(
+export async function createPokemonAttributesService(
   data: ICreateOrUpdatePokemon
 ): Promise<IPokemonContract> {
   const gateway = new PokemonGateway();
