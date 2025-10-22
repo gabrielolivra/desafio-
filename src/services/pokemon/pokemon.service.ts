@@ -11,9 +11,9 @@ import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon/po
 export async function createPokemonAttributesService(
   data: ICreateOrUpdatePokemon
 ): Promise<IPokemonContract> {
-  const gateway = new PokemonGateway();
+  const pokemonGateway = new PokemonGateway();
 
-  const pokemonData = await gateway.getPokemonByName(data.pokemonName.toLocaleLowerCase());
+  const pokemonData = await pokemonGateway.getPokemonByName(data.pokemonName.toLocaleLowerCase());
 
   if (!pokemonData) {
     throw new Error(`Pokemon with name ${data.pokemonName} not found in external API.`);
@@ -74,12 +74,12 @@ export async function listPokemonsService(page: number, limit: number): Promise<
   const gatewayPokemons = new PokemonGateway();
   const pokemonsList = await gatewayPokemons.getAllPokemons(page, limit);
   const pokemonsFromDB = await findPokemons();
-  let mergePokemons = [];
+  let mergedPokemons = [];
 
   for (const pokemon of pokemonsList) {
     const pokemonInDB = pokemonsFromDB.find(p => p.pokemonName.toLowerCase() === pokemon.name);
     if (pokemonInDB) {
-      mergePokemons.push({
+      mergedPokemons.push({
         ...pokemon,
         favorite: pokemonInDB.favorite,
         nickname: pokemonInDB.nickname,
@@ -88,13 +88,13 @@ export async function listPokemonsService(page: number, limit: number): Promise<
       });
     }
     else {
-      mergePokemons.push({
+      mergedPokemons.push({
         ...pokemon
       });
     }
   }
 
-  return mergePokemons as IPokemonContract[];
+  return mergedPokemons as IPokemonContract[];
 }
 
 async function verifyLimitFavorite(): Promise<boolean> {
