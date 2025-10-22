@@ -4,7 +4,6 @@ type Pokemon {
   name: String!
   height: Int
   weight: Int
-  abilities: [String!]!
   types: [String!]!
   nickname: String
   favorite: Boolean

@@ -1,4 +1,4 @@
-import { addStatusPokemonService, listPokemonsService } from "../../services/pokemon/pokemon";
+import { createOrUpdatePokemonService, listPokemonsService } from "../../services/pokemon/pokemon";
 import PokemonSchema from "../../entities/schema";
 
 export const resolvers = {
@@ -18,7 +18,7 @@ Mutation: {
 //TODO Implement the createPokemon resolver
       createPokemon: async (_: any, args: { input: { pokemonName: string, nickname: string, favorite: boolean, powerLevel: number } }) => {
         const { pokemonName, nickname, favorite, powerLevel } = args.input;
-        return await addStatusPokemonService(pokemonName, nickname, favorite, powerLevel);
+        return await createOrUpdatePokemonService(pokemonName, nickname, favorite, powerLevel);
       }
     }
 };

@@ -6,8 +6,8 @@ export interface ICreatePokemon {
 }
 
 export interface IPokemon {
+    id: string;
     pokemonName: string;
-    id: string
     nickname: string
     favorite: boolean
     powerLevel: number

@@ -2,7 +2,7 @@ import PokemonSchema from "../entities/schema"
 import { IPokemon } from "./contract/pokemon.contract";
 
 
-export async function createPokemon(data: IPokemon): Promise<IPokemon> {
+export async function createPokemon(data: Partial<IPokemon>): Promise<IPokemon> {
   const newPokemon = await PokemonSchema.create(data);
   return newPokemon as any;
 }
@@ -14,12 +14,12 @@ export async function findPokemons(): Promise<IPokemon[]> {
 }
 
 export async function updatePokemon(id: string, data: Partial<IPokemon>): Promise<IPokemon | null> {
-  const updatedPokemon: IPokemon | null = await PokemonSchema.findByIdAndUpdate(
+  const updatedPokemon  = await PokemonSchema.findByIdAndUpdate(
     id,
     { ...data },
     { new: true }
   );
-  return updatedPokemon;
+  return updatedPokemon as IPokemon | null;
 }
 
 export async function getPokemonByName(name: string): Promise<IPokemon | null> {

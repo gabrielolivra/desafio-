@@ -16,6 +16,7 @@ export class PokemonGateway {
             for (const item of response.data.results) {
                 const pokemonDetail = await this.getPokemonByName(item.name);
                 let pokemonInfo = {
+                    id: pokemonDetail.id,
                     name: item.name,
                     height: pokemonDetail.height,
                     weight: pokemonDetail.weight,
