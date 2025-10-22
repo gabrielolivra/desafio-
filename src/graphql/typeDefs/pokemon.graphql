@@ -1,4 +1,3 @@
-
 type Pokemon {
   id: ID!
   name: String!
@@ -12,12 +11,10 @@ type Pokemon {
 
 type Query {
   pokemons(limit: Int, offset: Int): [Pokemon!]!
-  pokemon(id: ID!): Pokemon
 }
 
 type Mutation {
-  createPokemon(input: PokemonAttributesInput!): Pokemon!
-  updatePokemon(id: ID!, input: PokemonUpdateInput!): Pokemon!
+  createOrUpdatePokemon(input: PokemonAttributesInput!): Pokemon!
 }
 
 input PokemonAttributesInput {
@@ -25,10 +22,4 @@ input PokemonAttributesInput {
   nickname: String!
   favorite: Boolean!
   powerLevel: Int!
-}
-
-input PokemonUpdateInput {
-  nickName: String
-  favorite: Boolean
-  powerLevel: Int
 }

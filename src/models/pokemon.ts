@@ -10,11 +10,11 @@ export async function createPokemon(data: Partial<IPokemon>): Promise<IPokemon> 
 export async function findPokemons(): Promise<IPokemon[]> {
   const pokemons: IPokemon[] = await PokemonSchema.find();
   return pokemons;
-  
+
 }
 
 export async function updatePokemon(id: string, data: Partial<IPokemon>): Promise<IPokemon | null> {
-  const updatedPokemon  = await PokemonSchema.findByIdAndUpdate(
+  const updatedPokemon = await PokemonSchema.findByIdAndUpdate(
     id,
     { ...data },
     { new: true }
