@@ -88,16 +88,12 @@ export async function listPokemonsService(perPage: number, page: number): Promis
     }
     else {
       mergePokemons.push({
-        ...pokemon,
-        favorite: false,
-        nickname: "",
-        powerLevel: -1,
-        id: "-1"
+        ...pokemon
       });
     }
   }
 
-  return mergePokemons;
+  return mergePokemons as IPokemonContract[];
 }
 
 async function verifyLimitFavorite(): Promise<boolean> {

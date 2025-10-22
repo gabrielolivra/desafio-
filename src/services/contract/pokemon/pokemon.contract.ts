@@ -4,9 +4,9 @@ export interface IPokemonContract {
   height: number
   weight: number
   types: string[]
-  nickname: string
-  favorite: boolean
-  powerLevel: number
+  nickname?: string
+  favorite?: boolean
+  powerLevel?: number
 }
 
 export interface ICreateOrUpdatePokemon {
