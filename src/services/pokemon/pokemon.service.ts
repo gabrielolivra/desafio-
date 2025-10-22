@@ -1,3 +1,4 @@
+import { MAX_FAVORITE_POKEMONS, POKEMON_POWERLEVEL_MAX, POKEMON_POWERLEVEL_MIN } from "../../consts/pokemon/pokemons.consts";
 import { PokemonGateway } from "../../gateways/pokemon/pokemon.gateway";
 import {
   createPokemon,
@@ -19,8 +20,8 @@ export async function createPokemonAttributesService(
     throw new Error(`Pokemon with name ${data.pokemonName} not found in external API.`);
   }
 
-  if (data.powerLevel < 1 || data.powerLevel > 100) {
-    throw new Error("Power level must be between 1 and 100.");
+  if (data.powerLevel < POKEMON_POWERLEVEL_MIN || data.powerLevel > POKEMON_POWERLEVEL_MAX) {
+    throw new Error(`Power level must be between ${POKEMON_POWERLEVEL_MIN} and ${POKEMON_POWERLEVEL_MAX}.`);
   }
 
   const existingPokemon = await findPokemonByName(data.pokemonName.toLowerCase());
@@ -99,5 +100,5 @@ export async function listPokemonsService(page: number, limit: number): Promise<
 
 async function verifyLimitFavorite(): Promise<boolean> {
   const quantityFavoritePokemons = await findQuantityPokemonsByFavorite(true);
-  return quantityFavoritePokemons >= 3;
+  return quantityFavoritePokemons >= MAX_FAVORITE_POKEMONS;
 }
