@@ -29,5 +29,5 @@ export async function getPokemonByName(name: string): Promise<IPokemon | null> {
 
 export async function verifyQuantityPokemon(): Promise<boolean> {
   const favoritePokemon = await PokemonSchema.find({ favorite: true });
-  return favoritePokemon.length > 3;
+  return favoritePokemon.length >= 3;
 }

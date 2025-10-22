@@ -8,8 +8,9 @@ export async function createOrUpdatePokemonService(
   data: ICreateOrUpdatePokemon
 ): Promise<IPokemonContract> {
   const gateway = new PokemonGateway();
-  try {
+  
     const pokemonData = await gateway.getPokemonByName(data.pokemonName.toLocaleLowerCase());
+
     if (!pokemonData) {
       throw new Error(`Pokemon with name ${data.pokemonName} not found in external API.`);
     }
@@ -19,6 +20,7 @@ export async function createOrUpdatePokemonService(
     }
 
     if (data.favorite) {
+      console.log('veio auqi')
       const reachedFavoriteLimit = await verifyQuantityPokemon();
       if (reachedFavoriteLimit) {
         throw new Error("Cannot have more than 3 favorite Pokemons.");
@@ -54,11 +56,6 @@ export async function createOrUpdatePokemonService(
       favorite: savedPokemon.favorite,
       powerLevel: savedPokemon.powerLevel,
     };
-
-  } catch (error) {
-    throw new Error(`Pokemon not found: ${name}`);
-  }
-
 
 }
 

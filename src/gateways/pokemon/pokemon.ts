@@ -38,7 +38,7 @@ export class PokemonGateway {
       );
       return response.data;
     } catch (error) {
-      throw new Error(`Failed to fetch Pokemon: ${name}`);
+      throw new Error(`Pokemon not found: ${name}`);
     }
   }
 
