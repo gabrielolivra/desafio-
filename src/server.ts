@@ -11,14 +11,14 @@ const app: Application = express();
 const port = Number(process.env.PORT) || 3000;
 
 export async function startServer() {
-  const mongoUri = process.env.MONGODB_URI;
+  const mongoUri = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@localhost:27017/${process.env.DATABASE}`;
   if (!mongoUri) {
     throw new Error('MONGODB_URI environment variable is not defined');
   }
   console.log('Connecting to MongoDB at', mongoUri);
 
   try {
-    await mongoose.connect(mongoUri, {authSource: "admin"});
+    await mongoose.connect(mongoUri, { authSource: "admin" });
     console.log('Connected to MongoDB successfully');
   } catch (err) {
     console.error('MongoDB connection error:', err);
