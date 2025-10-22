@@ -1,61 +1,58 @@
 import { PokemonGateway } from "../../gateways/pokemon/pokemon";
-import { createPokemon, findPokemons, getPokemonByName, updatePokemon, verifyQuantityPokemon } from "../../models/pokemon";
+import { createPokemon, findPokemons, findPokemonByName, updatePokemon, findQuantityPokemonsByFavorite } from "../../models/pokemon";
 import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon.contract.service";
-
-
 
 export async function createOrUpdatePokemonService(
   data: ICreateOrUpdatePokemon
 ): Promise<IPokemonContract> {
   const gateway = new PokemonGateway();
-  
-    const pokemonData = await gateway.getPokemonByName(data.pokemonName.toLocaleLowerCase());
 
-    if (!pokemonData) {
-      throw new Error(`Pokemon with name ${data.pokemonName} not found in external API.`);
+  const pokemonData = await gateway.getPokemonByName(data.pokemonName.toLocaleLowerCase());
+
+  if (!pokemonData) {
+    throw new Error(`Pokemon with name ${data.pokemonName} not found in external API.`);
+  }
+
+  if (data.powerLevel < 1 || data.powerLevel > 100) {
+    throw new Error("Power level must be between 1 and 100.");
+  }
+
+  if (data.favorite) {
+    const reachedFavoriteLimit = await verifyLimitFavorite();
+    if (reachedFavoriteLimit) {
+      throw new Error("Cannot have more than 3 favorite Pokemons.");
     }
+  }
 
-    if (data.powerLevel < 1 || data.powerLevel > 100) {
-      throw new Error("Power level must be between 1 and 100.");
-    }
+  const existingPokemon = await findPokemonByName(data.pokemonName.toLowerCase());
 
-    if (data.favorite) {
-      console.log('veio auqi')
-      const reachedFavoriteLimit = await verifyQuantityPokemon();
-      if (reachedFavoriteLimit) {
-        throw new Error("Cannot have more than 3 favorite Pokemons.");
-      }
-    }
-
-    const existingPokemon = await getPokemonByName(data.pokemonName.toLowerCase());
-
-    if (existingPokemon) {
-      const updatedPokemon = await updatePokemon(existingPokemon.id, { nickname: data.nickname, favorite: data.favorite, powerLevel: data.powerLevel });
-      return {
-        ...pokemonData,
-        types: pokemonData.types.map(t => t.type.name),
-        id: updatedPokemon!.id,
-        nickname: updatedPokemon!.nickname,
-        favorite: updatedPokemon!.favorite,
-        powerLevel: updatedPokemon!.powerLevel,
-      };
-    }
-
-    const savedPokemon = await createPokemon({
-      pokemonName: pokemonData.name,
-      nickname: data.nickname,
-      favorite: data.favorite,
-      powerLevel: data.powerLevel,
-    });
-
+  if (existingPokemon) {
+    const updatedPokemon = await updatePokemon(existingPokemon.id, { nickname: data.nickname, favorite: data.favorite, powerLevel: data.powerLevel });
     return {
       ...pokemonData,
       types: pokemonData.types.map(t => t.type.name),
-      id: savedPokemon.id.toString(),
-      nickname: savedPokemon.nickname,
-      favorite: savedPokemon.favorite,
-      powerLevel: savedPokemon.powerLevel,
+      id: updatedPokemon!.id,
+      nickname: updatedPokemon!.nickname,
+      favorite: updatedPokemon!.favorite,
+      powerLevel: updatedPokemon!.powerLevel,
     };
+  }
+
+  const savedPokemon = await createPokemon({
+    pokemonName: pokemonData.name,
+    nickname: data.nickname,
+    favorite: data.favorite,
+    powerLevel: data.powerLevel,
+  });
+
+  return {
+    ...pokemonData,
+    types: pokemonData.types.map(t => t.type.name),
+    id: savedPokemon.id.toString(),
+    nickname: savedPokemon.nickname,
+    favorite: savedPokemon.favorite,
+    powerLevel: savedPokemon.powerLevel,
+  };
 
 }
 
@@ -76,4 +73,9 @@ export async function listPokemonsService(perPage: number, page: number): Promis
   }
 
   return mergePokemons;
+}
+
+async function verifyLimitFavorite(): Promise<boolean> {
+  const quantityFavoritePokemons = await findQuantityPokemonsByFavorite(true);
+  return quantityFavoritePokemons >= 3;
 }

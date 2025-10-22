@@ -22,12 +22,13 @@ export async function updatePokemon(id: string, data: Partial<IPokemon>): Promis
   return updatedPokemon as IPokemon | null;
 }
 
-export async function getPokemonByName(name: string): Promise<IPokemon | null> {
+export async function findPokemonByName(name: string): Promise<IPokemon | null> {
   const pokemon: IPokemon | null = await PokemonSchema.findOne({ pokemonName: name });
   return pokemon;
 }
 
-export async function verifyQuantityPokemon(): Promise<boolean> {
-  const favoritePokemon = await PokemonSchema.find({ favorite: true });
-  return favoritePokemon.length >= 3;
+export async function findQuantityPokemonsByFavorite(favorite: boolean): Promise<number> {
+  const pokemons: IPokemon[] = await PokemonSchema.find({ favorite });
+  return pokemons.length;
 }
+
