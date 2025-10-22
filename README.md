@@ -62,7 +62,7 @@ query Query {
 ```
 
 Mutation: 
-`
+```bash
 mutation CreatePokemon {
   createOrUpdatePokemon(input: {
     pokemonName: "venusaur"
@@ -81,4 +81,4 @@ mutation CreatePokemon {
   }
 }
 
-`
+```
