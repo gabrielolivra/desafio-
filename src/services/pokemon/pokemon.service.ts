@@ -23,7 +23,7 @@ export async function createPokemonAttributesService(
     throw new Error("Power level must be between 1 and 100.");
   }
 
-   const existingPokemon = await findPokemonByName(data.pokemonName.toLowerCase());
+  const existingPokemon = await findPokemonByName(data.pokemonName.toLowerCase());
 
   if (data.favorite && !existingPokemon) {
     const reachedFavoriteLimit = await verifyLimitFavorite();
@@ -31,8 +31,6 @@ export async function createPokemonAttributesService(
       throw new Error("Cannot have more than 3 favorite Pokemons.");
     }
   }
-
- 
 
   if (existingPokemon) {
     const updatedPokemon = await updatePokemon(existingPokemon.id,
