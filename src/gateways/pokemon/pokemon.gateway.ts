@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IPokemonGatewayDetail, IPokemonGatewayListResponse, IPokemonType } from './types';
+import { IPokemonGatewayDetail, IPokemonGatewayListResponse, IPokemonType } from './pokemon.contract';
 
 export class PokemonGateway {
   private readonly baseUrl = process.env.API_POKEMON_URL;

@@ -1,11 +1,11 @@
-import { PokemonGateway } from "../../gateways/pokemon/pokemon";
+import { PokemonGateway } from "../../gateways/pokemon/pokemon.gateway";
 import {
   createPokemon,
   findPokemons,
   findPokemonByName,
   updatePokemon,
   findQuantityPokemonsByFavorite
-} from "../../models/pokemon";
+} from "../../models/pokemon.model";
 import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon/pokemon.contract";
 
 export async function createPokemonAttributesService(
