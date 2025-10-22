@@ -18,7 +18,7 @@ export async function startServer() {
   console.log('Connecting to MongoDB at', mongoUri);
 
   try {
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {authSource: "admin"});
     console.log('Connected to MongoDB successfully');
   } catch (err) {
     console.error('MongoDB connection error:', err);
