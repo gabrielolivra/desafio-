@@ -13,13 +13,13 @@ export async function findPokemons(): Promise<IPokemon[]> {
   
 }
 
-export async function updatePokemon(id: string, data: Partial<IPokemon>): Promise<IPokemon> {
-  const updatedPokemon = await PokemonSchema.findByIdAndUpdate(
+export async function updatePokemon(id: string, data: Partial<IPokemon>): Promise<IPokemon | null> {
+  const updatedPokemon: IPokemon | null = await PokemonSchema.findByIdAndUpdate(
     id,
     { ...data },
     { new: true }
   );
-  return updatedPokemon as any;
+  return updatedPokemon;
 }
 
 export async function getPokemonByName(name: string): Promise<IPokemon | null> {

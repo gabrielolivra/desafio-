@@ -1,6 +1,6 @@
 export interface ICreatePokemon {
     pokemonName: string;
-    nickName: string;
+    nickname: string;
     favorite: boolean;
     powerLevel: number;
 }
@@ -8,7 +8,7 @@ export interface ICreatePokemon {
 export interface IPokemon {
     pokemonName: string;
     id: string
-    nickName: string
+    nickname: string
     favorite: boolean
     powerLevel: number
 }

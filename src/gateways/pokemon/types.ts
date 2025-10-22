@@ -1,11 +1,8 @@
 export interface IPokemonGatewayListResponse {
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: {
-        name: string;
-        url: string;
-    }[];
+    name: string,
+    height: number,
+    weight: number,
+    types: string[],
 }
 
 export interface IPokemonGatewayDetail {

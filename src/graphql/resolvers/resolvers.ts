@@ -3,8 +3,9 @@ import PokemonSchema from "../../entities/schema";
 
 export const resolvers = {
     Query: {
-      pokemons: async () => {
-        const pokemons = await listPokemonsService();
+      pokemons: async (_: any, args: { limit: number, offset: number }) => {
+        const { limit, offset } = args;
+        const pokemons = await listPokemonsService(limit, offset);
         return pokemons;
       }   
     },
@@ -15,16 +16,9 @@ Mutation: {
       //   return await addStatusPokemon(name, nickName, favorite, powerLevel);
       // }, 
 //TODO Implement the createPokemon resolver
-      createPokemon: async (_: any, args: { input: any }) => {
-        const { pokemonName, nickName, favorite, powerLevel } = args.input;
-        console.log('Creating Pokemon with data:', args.input);
-        const newPokemon = PokemonSchema.create({
-          pokemonName,
-          nickName,
-          favorite,
-          powerLevel
-        });
-        return await newPokemon;
+      createPokemon: async (_: any, args: { input: { pokemonName: string, nickname: string, favorite: boolean, powerLevel: number } }) => {
+        const { pokemonName, nickname, favorite, powerLevel } = args.input;
+        return await addStatusPokemonService(pokemonName, nickname, favorite, powerLevel);
       }
     }
 };

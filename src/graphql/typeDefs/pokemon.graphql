@@ -1,29 +1,35 @@
 
-  type Pokemon {
-    id: ID!
-    name: String!
-    height: Int
-    weight: Int
-    abilities: [String!]!
-    types: [String!]!
-    nickName: String
-    favorite: Boolean
-    powerLevel: Int
-  }
+type Pokemon {
+  id: ID!
+  name: String!
+  height: Int
+  weight: Int
+  abilities: [String!]!
+  types: [String!]!
+  nickname: String
+  favorite: Boolean
+  powerLevel: Int
+}
 
-  type Query {
-    pokemons: [Pokemon!]!
-  }
+type Query {
+  pokemons(limit: Int, offset: Int): [Pokemon!]!
+  pokemon(id: ID!): Pokemon
+}
 
-  type Mutation {
-    createPokemon(input: PokemonAttributesInput!): Pokemon!
-    updatePokemon(input: PokemonAttributesInput!): Pokemon!
-  }
-
+type Mutation {
+  createPokemon(input: PokemonAttributesInput!): Pokemon!
+  updatePokemon(id: ID!, input: PokemonUpdateInput!): Pokemon!
+}
 
 input PokemonAttributesInput {
-pokemonName: String!
-nickname: String
-favorite: Boolean
-powerLevel: Int
+  pokemonName: String!
+  nickname: String!
+  favorite: Boolean!
+  powerLevel: Int!
+}
+
+input PokemonUpdateInput {
+  nickName: String
+  favorite: Boolean
+  powerLevel: Int
 }
