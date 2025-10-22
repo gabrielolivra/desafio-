@@ -1,5 +1,11 @@
 import { PokemonGateway } from "../../gateways/pokemon/pokemon";
-import { createPokemon, findPokemons, findPokemonByName, updatePokemon, findQuantityPokemonsByFavorite } from "../../models/pokemon";
+import {
+  createPokemon,
+  findPokemons,
+  findPokemonByName,
+  updatePokemon,
+  findQuantityPokemonsByFavorite
+} from "../../models/pokemon";
 import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon/pokemon.contract";
 
 export async function createOrUpdatePokemonService(
@@ -27,7 +33,13 @@ export async function createOrUpdatePokemonService(
   const existingPokemon = await findPokemonByName(data.pokemonName.toLowerCase());
 
   if (existingPokemon) {
-    const updatedPokemon = await updatePokemon(existingPokemon.id, { nickname: data.nickname, favorite: data.favorite, powerLevel: data.powerLevel });
+    const updatedPokemon = await updatePokemon(existingPokemon.id,
+      {
+        nickname: data.nickname,
+        favorite: data.favorite,
+        powerLevel: data.powerLevel
+      });
+
     return {
       ...pokemonData,
       types: pokemonData.types.map(t => t.type.name),
@@ -36,6 +48,7 @@ export async function createOrUpdatePokemonService(
       favorite: updatedPokemon!.favorite,
       powerLevel: updatedPokemon!.powerLevel,
     };
+
   }
 
   const savedPokemon = await createPokemon({
@@ -63,12 +76,24 @@ export async function listPokemonsService(perPage: number, page: number): Promis
   let mergePokemons = [];
 
   for (const pokemon of pokemonsList) {
-    const pokemonInDB = pokemonsFromDB.find(p => p.pokemonName.toLowerCase() === pokemon.name.toLowerCase());
+    const pokemonInDB = pokemonsFromDB.find(p => p.pokemonName.toLowerCase() === pokemon.name);
     if (pokemonInDB) {
-      mergePokemons.push({ ...pokemon, favorite: pokemonInDB.favorite, nickname: pokemonInDB.nickname, powerLevel: pokemonInDB.powerLevel, id: pokemonInDB.id.toString() });
+      mergePokemons.push({
+        ...pokemon,
+        favorite: pokemonInDB.favorite,
+        nickname: pokemonInDB.nickname,
+        powerLevel: pokemonInDB.powerLevel,
+        id: pokemonInDB.id.toString()
+      });
     }
     else {
-      mergePokemons.push({ ...pokemon, favorite: false, nickname: "", powerLevel: -1, id: "-1" });
+      mergePokemons.push({
+        ...pokemon,
+        favorite: false,
+        nickname: "",
+        powerLevel: -1,
+        id: "-1"
+      });
     }
   }
 
