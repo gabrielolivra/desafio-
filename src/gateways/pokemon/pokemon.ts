@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { IPokemonGatewayDetail, IPokemonGatewayListResponse, IPokemonType } from './types';
 
-
-
 export class PokemonGateway {
   private readonly baseUrl = process.env.API_POKEMON_URL;
 
@@ -14,7 +12,7 @@ export class PokemonGateway {
       );
 
       for (const item of response.data.results) {
-        const pokemonDetail = await this.getPokemonByName(item.name);
+        const pokemonDetail = await this.getPokemonByName(item.name.toLocaleLowerCase());
         let pokemonInfo = {
           id: pokemonDetail.id,
           name: item.name,
