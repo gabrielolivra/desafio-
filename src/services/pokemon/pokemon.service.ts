@@ -1,6 +1,6 @@
 import { PokemonGateway } from "../../gateways/pokemon/pokemon";
 import { createPokemon, findPokemons, findPokemonByName, updatePokemon, findQuantityPokemonsByFavorite } from "../../models/pokemon";
-import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon.contract.service";
+import { ICreateOrUpdatePokemon, IPokemonContract } from "../contract/pokemon/pokemon.contract";
 
 export async function createOrUpdatePokemonService(
   data: ICreateOrUpdatePokemon

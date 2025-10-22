@@ -1,5 +1,5 @@
-import { ICreateOrUpdatePokemon } from "../../services/contract/pokemon.contract.service";
-import { createOrUpdatePokemonService, listPokemonsService } from "../../services/pokemon/pokemon";
+import { ICreateOrUpdatePokemon } from "../../services/contract/pokemon/pokemon.contract";
+import { createOrUpdatePokemonService, listPokemonsService } from "../../services/pokemon/pokemon.service";
 
 export const resolvers = {
   Query: {
