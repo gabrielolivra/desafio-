@@ -1,14 +1,21 @@
 import axios from 'axios';
 import { IPokemonGatewayDetail, IPokemonGatewayListResponse, IPokemonType } from './pokemon.contract';
-import { MAX_LIMIT_POKEMONS } from '../../consts/pokemon/pokemons.consts';
+import { DEFAULT_POKEMON_LIMIT, DEFAULT_POKEMON_PAGE, MAX_LIMIT_POKEMONS } from '../../consts/pokemon/pokemons.consts';
 
 export class PokemonGateway {
   private readonly baseUrl = process.env.API_POKEMON_URL;
 
-  async getAllPokemons(page: number = 1, limit: number = 10): Promise<IPokemonType[]> {
+  async getAllPokemons(page: number = 0, limit: number = 10): Promise<IPokemonType[]> {
 
-    if(limit > MAX_LIMIT_POKEMONS){
-      throw new Error(`Limit exceeds maximum of ${MAX_LIMIT_POKEMONS}`);
+    if (page < 0) {
+      page = DEFAULT_POKEMON_PAGE;
+    }
+    if (limit < 1) {
+      limit = DEFAULT_POKEMON_LIMIT;
+    }
+
+    if (limit > MAX_LIMIT_POKEMONS) {
+      limit = MAX_LIMIT_POKEMONS;
     }
 
     let pokemonList = []
