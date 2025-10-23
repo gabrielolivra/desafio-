@@ -2,14 +2,10 @@ import PokemonSchema from "../entities/pokemon/schema"
 import { IPokemon } from "./contract/pokemon.contract";
 
 export async function createPokemon(data: Partial<IPokemon>): Promise<IPokemon> {
-  const newPokemon = await PokemonSchema.create(data);
+  const newPokemon = await PokemonSchema.create(
+    { ...data, pokemonName: data.pokemonName?.toLowerCase() }
+  );
   return newPokemon as unknown as IPokemon;
-}
-
-export async function findPokemons(): Promise<IPokemon[]> {
-  const pokemons: IPokemon[] = await PokemonSchema.find();
-  return pokemons;
-
 }
 
 export async function updatePokemon(id: string, data: Partial<IPokemon>): Promise<IPokemon | null> {

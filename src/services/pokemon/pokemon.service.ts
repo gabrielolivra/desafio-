@@ -2,7 +2,6 @@ import { MAX_FAVORITE_POKEMONS, POKEMON_POWERLEVEL_MAX, POKEMON_POWERLEVEL_MIN }
 import { PokemonGateway } from "../../gateways/pokemon/pokemon.gateway";
 import {
   createPokemon,
-  findPokemons,
   findPokemonByName,
   updatePokemon,
   findQuantityPokemonsByFavorite
@@ -74,11 +73,10 @@ export async function createPokemonAttributesService(
 export async function listPokemonsService(page: number, limit: number): Promise<IPokemonContract[]> {
   const gatewayPokemons = new PokemonGateway();
   const pokemonsList = await gatewayPokemons.getAllPokemons(page, limit);
-  const pokemonsFromDB = await findPokemons();
   let mergedPokemons = [];
 
   for (const pokemon of pokemonsList) {
-    const pokemonInDB = pokemonsFromDB.find(p => p.pokemonName.toLowerCase() === pokemon.name);
+    const pokemonInDB = await findPokemonByName(pokemon.name);
     if (pokemonInDB) {
       mergedPokemons.push({
         ...pokemon,
