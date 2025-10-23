@@ -11,6 +11,11 @@ Projeto Node.js desenvolvido como desafio técnico.
 
 ## Instalação
 
+Crie o arquivo .env com os dados do .env.example
+```bash
+cp .env.example .env
+```
+
 ### Usando Docker Compose
 ```bash
 # Baixar as imagens 
@@ -23,9 +28,6 @@ docker-compose up -d
 ```bash
 # Instale as dependências
 npm install
-
-#Crie o arquivo .env com os dados do .env.example
-cp .env.example .env
 
 # Execute o projeto
 npm run dev
