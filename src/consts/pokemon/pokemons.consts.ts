@@ -1,3 +1,4 @@
 export const POKEMON_POWERLEVEL_MIN = 1;
 export const POKEMON_POWERLEVEL_MAX = 100;
 export const MAX_FAVORITE_POKEMONS = 3;
+export const MAX_LIMIT_POKEMONS = 25;
